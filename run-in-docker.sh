@@ -15,4 +15,4 @@ docker run --rm -it \
         -v "${PWD}:/gen" \
         -v "$HOME/.m2":/root/.m2 \
         --entrypoint /gen/docker-entrypoint.sh \
-        maven:3-jdk-8 "$@"
+        maven:3.5.3-jdk-8 "$@"
