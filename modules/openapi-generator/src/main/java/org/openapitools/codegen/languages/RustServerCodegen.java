@@ -756,12 +756,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase();
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 
         for (CodegenParameter header : op.headerParams) {
-            header.nameInLowerCase = header.baseName.toLowerCase();
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
         for (CodegenProperty header : op.responseHeaders) {
@@ -769,7 +769,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 additionalProperties.put("apiUsesUuid", true);
             }
             header.nameInCamelCase = toModelName(header.baseName);
-            header.nameInLowerCase = header.baseName.toLowerCase();
+            header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
         return op;
@@ -836,7 +836,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
 
             for (CodegenParameter header : op.headerParams) {
-                header.nameInLowerCase = header.baseName.toLowerCase();
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
 
             for (CodegenProperty header : op.responseHeaders) {
@@ -844,7 +844,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     additionalProperties.put("apiUsesUuid", true);
                 }
                 header.nameInCamelCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase();
+                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
 
             if (op.authMethods != null) {
