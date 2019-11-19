@@ -223,7 +223,7 @@ where
                     None => return Box::new(future::ok(Response::builder()
                                         .status(StatusCode::BAD_REQUEST)
                                         .body(Body::from("Missing or invalid required header {{{baseName}}}"))
-                                        .expect("Unable to create Bad Request response for missing required header {{{baseName}}}"))),
+                                        .expect("Unable to create Bad Request response for missing required header {{{baseName}}}")))
                 };
   {{/required}}
   {{^required}}
@@ -381,13 +381,14 @@ where
                                   {{#jsonSchema}}
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&{{{paramName}}}_str) {
+                                        let {{{paramName}}}_model: {{{dataType}}} = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("{{{paramName}}} data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("{{{paramName}}} data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         {{{paramName}}}_model
@@ -403,7 +404,7 @@ where
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
                                             .body(Body::from(format!("Missing required form parameter {{{paramName}}}")))
-                                            .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}"))),
+                                            .expect("Unable to create Bad Request due to missing required form parameter {{{paramName}}}")))
                 {{/required}}
                 {{^required}}
                                             None

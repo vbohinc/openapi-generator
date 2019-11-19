@@ -28,9 +28,6 @@ extern crate serde;
 extern crate futures;
 extern crate chrono;
 extern crate swagger;
-{{#apiUsesUuid}}
-extern crate uuid;
-{{/apiUsesUuid}}
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;

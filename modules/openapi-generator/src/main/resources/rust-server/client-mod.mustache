@@ -211,7 +211,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
 {{#queryParams}}
   {{^required}}
         if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
@@ -392,16 +392,16 @@ impl<C, F> Api<C> for Client<F> where
         });
 
 {{#vendorExtensions.hasHeaderAuthMethods}}
-        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
             // Currently only authentication with Basic, API Key, and Bearer are supported
             match auth_data {
             {{#authMethods}}
                 {{#isApiKey}}
                     {{#isKeyInHeader}}
                 &AuthData::ApiKey(ref api_key) => {
-                    let header = match HeaderValue::from_str(&format!("{}", auth)) {
+                    let header = match HeaderValue::from_str(&format!("{}", api_key)) {
                         Ok(h) => h,
-                        Err(e) => return Box::new(future::err(ApiError(format!("Unable to create Authorization header: {}", e))))
+                        Err(e) => return Box::new(future::err(ApiError(format!("Unable to create {{ vendorExtensions.x-apiKeyName }} header: {}", e))))
                     };
                     request.headers_mut().insert(
                         "{{vendorExtensions.x-apiKeyName}}",
@@ -450,7 +450,7 @@ impl<C, F> Api<C> for Client<F> where
             {{/authMethods}}
                 _ => {}
             }
-        });
+        }
 {{/vendorExtensions.hasHeaderAuthMethods}}
 {{#headerParams}}
 {{#-first}}
@@ -542,7 +542,7 @@ impl<C, F> Api<C> for Client<F> where
   {{#-first}}
                             {
   {{/-first}}
-                              {{{name}}}: response_{{{name}}},
+                              {{{name}}}: (*Into::<swagger::IntoHeaderValue<{{{dataType}}}>>::into(response_{{{name}}})).clone(),
   {{#-last}}
                             }
   {{/-last}}
