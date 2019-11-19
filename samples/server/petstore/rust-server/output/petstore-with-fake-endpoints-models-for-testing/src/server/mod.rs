@@ -2102,13 +2102,14 @@ Some("status_example".to_string());
                                     Some({
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let additional_metadata_model: String = match serde_json::from_str(&additional_metadata_str) {
+                                        let additional_metadata_model: String = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("additional_metadata data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("additional_metadata data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         additional_metadata_model
@@ -2126,13 +2127,14 @@ Some("status_example".to_string());
                                     Some({
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let file_model: swagger::ByteArray = match serde_json::from_str(&file_str) {
+                                        let file_model: swagger::ByteArray = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("file data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("file data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         file_model

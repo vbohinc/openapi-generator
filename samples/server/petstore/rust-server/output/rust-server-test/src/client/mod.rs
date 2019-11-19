@@ -204,7 +204,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -275,7 +275,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -354,7 +354,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -437,7 +437,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -527,7 +527,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";

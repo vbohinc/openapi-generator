@@ -212,7 +212,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -411,7 +411,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -438,7 +438,7 @@ impl<C, F> Api<C> for Client<F> where
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
 
-        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
             // Currently only authentication with Basic, API Key, and Bearer are supported
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
@@ -453,7 +453,7 @@ impl<C, F> Api<C> for Client<F> where
                 },
                 _ => {}
             }
-        });
+        }
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -498,7 +498,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -525,7 +525,7 @@ impl<C, F> Api<C> for Client<F> where
             Err(e) => return Box::new(future::err(ApiError(format!("Unable to create X-Span ID header value: {}", e))))
         });
 
-        (context as &Has<Option<AuthData>>).get().as_ref().map(|auth_data| {
+        if let Some(auth_data) = (context as &Has<Option<AuthData>>).get().as_ref() {
             // Currently only authentication with Basic, API Key, and Bearer are supported
             match auth_data {
                 &AuthData::Bearer(ref bearer_header) => {
@@ -540,7 +540,7 @@ impl<C, F> Api<C> for Client<F> where
                 },
                 _ => {}
             }
-        });
+        }
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -585,7 +585,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -664,7 +664,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -737,8 +737,8 @@ impl<C, F> Api<C> for Client<F> where
                         future::ok(
                             ResponsesWithHeadersGetResponse::PreconditionFailed
                             {
-                              further_info: response_further_info,
-                              failure_info: response_failure_info,
+                              further_info: (*Into::<swagger::IntoHeaderValue<String>>::into(response_further_info)).clone(),
+                              failure_info: (*Into::<swagger::IntoHeaderValue<String>>::into(response_failure_info)).clone(),
                             }
                         )
                     ) as Box<Future<Item=_, Error=_> + Send>
@@ -774,7 +774,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -857,7 +857,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -948,7 +948,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1039,7 +1039,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1130,7 +1130,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";
@@ -1221,7 +1221,7 @@ impl<C, F> Api<C> for Client<F> where
         );
 
         // Query parameters
-        let mut query_string = self::url::form_urlencoded::Serializer::new("".to_owned());
+        let mut query_string = url::form_urlencoded::Serializer::new("".to_owned());
         let query_string_str = query_string.finish();
         if !query_string_str.is_empty() {
             uri += "?";

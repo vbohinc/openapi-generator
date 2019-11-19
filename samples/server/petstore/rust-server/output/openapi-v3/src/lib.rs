@@ -28,7 +28,6 @@ extern crate serde;
 extern crate futures;
 extern crate chrono;
 extern crate swagger;
-extern crate uuid;
 
 #[cfg(any(feature = "client", feature = "server"))]
 extern crate hyper;

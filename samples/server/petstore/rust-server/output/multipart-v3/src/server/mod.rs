@@ -154,13 +154,14 @@ where
                                         let mut reader = field[0].data.readable().expect("Unable to read field for string_field");
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let string_field_model: String = match serde_json::from_str(&string_field_str) {
+                                        let string_field_model: String = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("string_field data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("string_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         string_field_model
@@ -170,7 +171,7 @@ where
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
                                             .body(Body::from(format!("Missing required form parameter string_field")))
-                                            .expect("Unable to create Bad Request due to missing required form parameter string_field"))),
+                                            .expect("Unable to create Bad Request due to missing required form parameter string_field")))
                                     }
                                 };
 
@@ -181,13 +182,14 @@ where
                                     Some({
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let optional_string_field_model: String = match serde_json::from_str(&optional_string_field_str) {
+                                        let optional_string_field_model: String = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("optional_string_field data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("optional_string_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         optional_string_field_model
@@ -205,13 +207,14 @@ where
                                     Some({
                                         let mut data = String::new();
                                         reader.read_to_string(&mut data).expect("Reading saved String should never fail");
-                                        let object_field_model: models::MultipartRequestObjectField = match serde_json::from_str(&object_field_str) {
+                                        let object_field_model: models::MultipartRequestObjectField = match serde_json::from_str(&data) {
                                             Ok(model) => model,
                                             Err(e) => {
                                                 return Box::new(future::ok(
-                                                    Response::new()
-                                                    .with_status(StatusCode::BadRequest)
-                                                    .with_body(format!("object_field data does not match API definition: {}", e))))
+                                                    Response::builder()
+                                                    .status(StatusCode::BAD_REQUEST)
+                                                    .body(Body::from(format!("object_field data does not match API definition: {}", e)))
+                                                    .expect("Unable to create Bad Request response due to failure to process all message")))
                                             }
                                         };
                                         object_field_model
@@ -235,7 +238,7 @@ where
                                             Response::builder()
                                             .status(StatusCode::BAD_REQUEST)
                                             .body(Body::from(format!("Missing required form parameter binary_field")))
-                                            .expect("Unable to create Bad Request due to missing required form parameter binary_field"))),
+                                            .expect("Unable to create Bad Request due to missing required form parameter binary_field")))
                                     }
                                 };
 
